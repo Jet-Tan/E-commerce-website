@@ -3,7 +3,7 @@ import { Image, message } from "antd";
 import "./SignInPage.scss";
 import { InputForm } from "../../components/InputForm/InputForm";
 import imageLogin from "../../assets/login.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
 import * as userService from "../../services/userService";
@@ -16,6 +16,7 @@ export const SignInPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const mutation = useMutation({
     mutationFn: (data) => userService.loginUser(data),
@@ -23,17 +24,24 @@ export const SignInPage = () => {
   const { data } = mutation;
   useEffect(() => {
     if (data && data.errCode === 0) {
+      if (location?.state) {
+        navigate(location.state);
+      } else {
+        navigate("/");
+      }
       message.success("Sign in success!");
-      navigate("/");
-      localStorage.setItem("access_token", JSON.stringify(data?.access_token));
-      if (data?.access_token) {
-        const decoded = jwtDecode(data?.access_token);
+
+      const accessToken = data?.access_token;
+      localStorage.setItem("access_token", JSON.stringify(accessToken));
+
+      if (accessToken) {
+        const decoded = jwtDecode(accessToken);
         if (decoded?.id) {
-          handleGetDetailsUser(decoded?.id, data?.access_token);
+          handleGetDetailsUser(decoded.id, accessToken);
         }
       }
     }
-  });
+  }, [data, location]);
   const handleGetDetailsUser = async (id, token) => {
     const res = await userService.getDetailUser(id, token);
     dispatch(updateUser({ ...res?.data, access_token: token }));

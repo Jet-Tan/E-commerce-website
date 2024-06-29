@@ -7,11 +7,13 @@ import { StarFilled, PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import * as productService from "../../services/productService";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const ProductDetailComponent = ({ idProduct }) => {
   const user = useSelector((state) => state.user);
   const [numProduct, setNumProduct] = useState(0);
-
+  const navigate = useNavigate();
+  const location = useLocation();
   const onChange = (e) => {
     if (e && e.target) {
       setNumProduct(Number(e.target.value));
@@ -37,7 +39,12 @@ export const ProductDetailComponent = ({ idProduct }) => {
     queryFn: fetchGetDetailsProduct,
     enabled: !!idProduct,
   });
-
+  console.log("cha", location);
+  const handleAddOrderProduct = () => {
+    if (!user?.id) {
+      navigate("/sign-in", { state: location?.pathname });
+    }
+  };
   return (
     <Row className="product-detail-component">
       <Col span={10} className="product-detail-image">
@@ -123,7 +130,9 @@ export const ProductDetailComponent = ({ idProduct }) => {
           </div>
         </div>
         <div className="buy-product">
-          <button className="btn-buy">Mua ngay</button>
+          <button className="btn-buy" onClick={() => handleAddOrderProduct()}>
+            Mua ngay
+          </button>
           <button className="btn-pay-later">Mua trả sau</button>
         </div>
       </Col>

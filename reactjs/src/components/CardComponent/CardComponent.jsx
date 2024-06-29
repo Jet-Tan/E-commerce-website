@@ -48,7 +48,7 @@ export const CardComponent = (props) => {
             </span>
           </div>
           <div className="price">
-            <span>{price.toLocaleString()}</span>
+            <span>{price}</span>
           </div>
         </div>
       </Card>

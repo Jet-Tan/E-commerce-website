@@ -14,6 +14,7 @@ import * as userService from "../../services/userService";
 import { resetUser } from "../../redux/slide/userSlide";
 import { searchProduct } from "../../redux/slide/productSlide";
 import * as productService from "../../services/productService";
+import { TypeProduct } from "../TypeProduct/TypeProduct";
 const { Search } = Input;
 
 export const HeaderComponent = ({
@@ -93,7 +94,7 @@ export const HeaderComponent = ({
                 <div className="title">
                   {typeProducts?.length > 0 &&
                     typeProducts.map((type, index) => {
-                      return <span key={index}>{type}</span>;
+                      return <TypeProduct key={index} name={type} />;
                     })}
                 </div>
               </Col>
@@ -134,7 +135,7 @@ export const HeaderComponent = ({
                 </div>
               )}
               {!isHiddenCart && (
-                <div className="header-card">
+                <div className="header-card" onClick={() => navigate("/order")}>
                   <Badge count={4} style={{ margin: "5px" }} size="small">
                     <div className="card-child">
                       <ShoppingCartOutlined />

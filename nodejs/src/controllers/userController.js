@@ -87,7 +87,6 @@ const getDetailUser = async (req, res) => {
 const refreshToken = async (req, res) => {
   try {
     const token = req.cookies.refresh_token;
-    console.log("check t", token);
     if (!token) {
       return res.status(200).json({
         errCode: -1,
@@ -107,7 +106,7 @@ const refreshToken = async (req, res) => {
 
 const logoutUser = (req, res) => {
   try {
-    res.clearCookie("refresh-token");
+    res.clearCookie("refresh_token");
     return res.status(200).json({
       errCode: 0,
       message: "Logout successfully",

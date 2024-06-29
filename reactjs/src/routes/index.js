@@ -24,6 +24,11 @@ export const routes = [
     isShow: false,
   },
   {
+    path: "/product/:type",
+    page: TypeProductPage,
+    isShow: true,
+  },
+  {
     path: "/type",
     page: TypeProductPage,
     isShow: true,
