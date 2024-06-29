@@ -1,0 +1,22 @@
+.type-container {
+  background: rgb(234, 237, 237);
+  .ant-row.css-dev-only-do-not-override-17seli4 {
+    margin: unset !important;
+  }
+  .type-card-content {
+    display: flex;
+    gap: 12px;
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 20px;
+    width: 1130px;
+    padding: 20px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+  }
+  .type-pagination {
+    display: flex;
+    margin: 10px 0;
+    justify-content: center;
+  }
+}
