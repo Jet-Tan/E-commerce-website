@@ -44,7 +44,6 @@ const authUserMiddleWare = (req, res, next) => {
         message: "Token is invalid or expired",
       });
     }
-    console.log("user", user);
     if (user?.isAdmin || user?.id === userId) {
       next();
     } else {

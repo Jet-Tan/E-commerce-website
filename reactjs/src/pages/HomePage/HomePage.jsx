@@ -25,7 +25,7 @@ export const HomePage = () => {
     slidesToScroll: 2,
   };
   const searchProduct = useSelector((state) => state?.product?.search);
-  const [limit, setLimit] = useState(2);
+  const [limit, setLimit] = useState(6);
   const fetchProductAll = async (context) => {
     const limit = context?.queryKey && context?.queryKey[1];
     const search = context?.queryKey && context?.queryKey[2];

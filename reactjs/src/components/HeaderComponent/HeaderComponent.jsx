@@ -27,6 +27,7 @@ export const HeaderComponent = ({
   const [userName, setUserName] = useState("");
   const [userAvatart, setUserAvatar] = useState("");
   const [search, setSearch] = useState("");
+  const order = useSelector((state) => state.order);
   const [typeProducts, setTypeProducts] = useState([]);
   const handleNavLogin = () => {
     navigate("/sign-in");
@@ -136,7 +137,11 @@ export const HeaderComponent = ({
               )}
               {!isHiddenCart && (
                 <div className="header-card" onClick={() => navigate("/order")}>
-                  <Badge count={4} style={{ margin: "5px" }} size="small">
+                  <Badge
+                    count={order?.orderItems?.length}
+                    style={{ margin: "5px" }}
+                    size="small"
+                  >
                     <div className="card-child">
                       <ShoppingCartOutlined />
                     </div>

@@ -31,7 +31,7 @@ export const CardComponent = (props) => {
         style={{
           width: 180,
         }}
-        cover={<img alt="example" src={image} />}
+        cover={<img alt="example" src={image} style={{ height: "170px" }} />}
       >
         <div className="card-content">
           <div className="badge">

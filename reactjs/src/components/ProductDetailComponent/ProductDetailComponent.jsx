@@ -1,19 +1,19 @@
 import { Col, Row, Image, InputNumber, Rate } from "antd";
 import React, { useState } from "react";
 import "./ProductDetailComponent.scss";
-import imageProduct from "../../assets/product/1.jpg";
 import imageProductSmall from "../../assets/product/1_small.jpg";
-import { StarFilled, PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import * as productService from "../../services/productService";
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { addOrderProduct } from "../../redux/slide/orderSlide";
 export const ProductDetailComponent = ({ idProduct }) => {
   const user = useSelector((state) => state.user);
-  const [numProduct, setNumProduct] = useState(0);
+  const [numProduct, setNumProduct] = useState(1);
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const onChange = (e) => {
     if (e && e.target) {
       setNumProduct(Number(e.target.value));
@@ -43,8 +43,21 @@ export const ProductDetailComponent = ({ idProduct }) => {
   const handleAddOrderProduct = () => {
     if (!user?.id) {
       navigate("/sign-in", { state: location?.pathname });
+    } else {
+      dispatch(
+        addOrderProduct({
+          orderItems: {
+            name: productDetails?.name,
+            amount: numProduct,
+            image: productDetails?.image,
+            price: productDetails?.price,
+            product: productDetails?._id,
+          },
+        })
+      );
     }
   };
+  console.log("check", productDetails, user);
   return (
     <Row className="product-detail-component">
       <Col span={10} className="product-detail-image">
