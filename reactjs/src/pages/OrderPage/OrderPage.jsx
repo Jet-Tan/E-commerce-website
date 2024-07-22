@@ -1,25 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import "./OrderPage.scss";
 import { Checkbox, InputNumber } from "antd";
 import { DeleteOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { decreaseAmount, increaseAmount } from "../../redux/slide/orderSlide";
+import {
+  decreaseAmount,
+  increaseAmount,
+  removeAllOrderProduct,
+  removeOrderProduct,
+} from "../../redux/slide/orderSlide";
 export const OrderPage = () => {
+  const [listChecked, setListChecked] = useState([]);
   const order = useSelector((state) => state.order);
   const dispatch = useDispatch();
-  const hadnleOnChangeCheckAll = (e) => {};
   const onChange = (e) => {
-    console.log(e.target.value);
-  };
-
-  const handleChangeCount = (type, idProduct) => {
-    if (type === "increase") {
-      dispatch(increaseAmount(idProduct));
+    if (listChecked.includes(e.target.value)) {
+      const newListChecked = listChecked.filter((item) => item !== listChecked);
+      setListChecked(newListChecked);
     } else {
-      dispatch(decreaseAmount(idProduct));
+      setListChecked([...listChecked, e.target.value]);
     }
   };
-  console.log("check", order);
+  const handleChangeCount = (type, idProduct) => {
+    if (type === "increase") {
+      dispatch(increaseAmount({ idProduct }));
+    } else {
+      dispatch(decreaseAmount({ idProduct }));
+    }
+  };
+  const handleDeleteOrder = (idProduct) => {
+    dispatch(removeOrderProduct({ idProduct }));
+  };
+  const handleAllDelete = () => {
+    if (listChecked.length > 1) {
+      dispatch(removeAllOrderProduct({ listChecked }));
+    }
+  };
+  const hadnleOnChangeCheckAll = (e) => {
+    if (e.target.checked) {
+      const newListChecked = [];
+      order?.orderItems?.forEach((item) => {
+        newListChecked.push(item?.product);
+      });
+      setListChecked(newListChecked);
+    } else {
+      setListChecked([]);
+    }
+  };
   return (
     <div className="order-container">
       <div className="order-content">
@@ -28,7 +55,10 @@ export const OrderPage = () => {
           <div className="order-left">
             <div className="order-up">
               <div className="header-up">
-                <Checkbox onChange={hadnleOnChangeCheckAll}>
+                <Checkbox
+                  onChange={hadnleOnChangeCheckAll}
+                  checked={listChecked?.length === order?.orderItems?.length}
+                >
                   Tất cả ({order?.orderItems?.length} sản phẩm)
                 </Checkbox>
               </div>
@@ -36,16 +66,20 @@ export const OrderPage = () => {
                 <span>Đơn giá</span>
                 <span>Số lượng</span>
                 <span>Thành tiền</span>
-                <DeleteOutlined />
+                <DeleteOutlined onClick={() => handleAllDelete()} />
               </div>
             </div>
             {order?.orderItems?.map((order) => {
               return (
                 <div className="order-down">
                   <div className="list-up">
-                    <Checkbox />
-                    <img src="aa" />
-                    <span>{order?.name}</span>
+                    <Checkbox
+                      onChange={onChange}
+                      value={order?.product}
+                      checked={listChecked.includes(order?.product)}
+                    />
+                    <img src={order?.image} className="image" />
+                    <div className="image-name">{order?.name}</div>
                   </div>
                   <div className="list-down">
                     <div className="price">{order?.price}</div>
@@ -58,11 +92,8 @@ export const OrderPage = () => {
                         <MinusOutlined />
                       </button>
                       <InputNumber
-                        min={1}
-                        max={10}
                         defaultValue={order?.amount}
                         value={order?.amount}
-                        onChange={onChange}
                         size="small"
                         className="input-number"
                       />
@@ -78,7 +109,9 @@ export const OrderPage = () => {
                     <div className="into-money">
                       {order?.price * order?.amount}
                     </div>
-                    <DeleteOutlined />
+                    <DeleteOutlined
+                      onClick={() => handleDeleteOrder(order?.product)}
+                    />
                   </div>
                 </div>
               );

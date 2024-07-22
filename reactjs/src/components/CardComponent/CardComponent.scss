@@ -21,6 +21,9 @@
       flex-direction: column;
       .title {
         font-size: 14px;
+        height: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .star {
         color: #ffc400;

@@ -39,7 +39,6 @@ export const ProductDetailComponent = ({ idProduct }) => {
     queryFn: fetchGetDetailsProduct,
     enabled: !!idProduct,
   });
-  console.log("cha", location);
   const handleAddOrderProduct = () => {
     if (!user?.id) {
       navigate("/sign-in", { state: location?.pathname });
@@ -57,7 +56,6 @@ export const ProductDetailComponent = ({ idProduct }) => {
       );
     }
   };
-  console.log("check", productDetails, user);
   return (
     <Row className="product-detail-component">
       <Col span={10} className="product-detail-image">
@@ -68,42 +66,42 @@ export const ProductDetailComponent = ({ idProduct }) => {
         <Row className="image-small-content">
           <Col span={4} className="image-small-detail">
             <Image
-              src={imageProductSmall}
+              src={productDetails?.image}
               alt="image small"
               className="image-small-child"
             />
           </Col>
           <Col span={4} className="image-small-detail">
             <Image
-              src={imageProductSmall}
+              src={productDetails?.image}
               alt="image small"
               className="image-small-child"
             />
           </Col>
           <Col span={4} className="image-small-detail">
             <Image
-              src={imageProductSmall}
+              src={productDetails?.image}
               alt="image small"
               className="image-small-child"
             />
           </Col>
           <Col span={4} className="image-small-detail">
             <Image
-              src={imageProductSmall}
+              src={productDetails?.image}
               alt="image small"
               className="image-small-child"
             />
           </Col>
           <Col span={4} className="image-small-detail">
             <Image
-              src={imageProductSmall}
+              src={productDetails?.image}
               alt="image small"
               className="image-small-child"
             />
           </Col>
           <Col span={4} className="image-small-detail">
             <Image
-              src={imageProductSmall}
+              src={productDetails?.image}
               alt="image small"
               className="image-small-child"
             />
@@ -144,7 +142,7 @@ export const ProductDetailComponent = ({ idProduct }) => {
         </div>
         <div className="buy-product">
           <button className="btn-buy" onClick={() => handleAddOrderProduct()}>
-            Mua ngay
+            Chọn mua
           </button>
           <button className="btn-pay-later">Mua trả sau</button>
         </div>

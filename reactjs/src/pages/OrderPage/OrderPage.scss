@@ -1,3 +1,7 @@
+.ant-input-number-handler-wrap {
+  display: none !important;
+}
+
 .order-container {
   background: rgb(234, 237, 237);
   height: 100vh;
@@ -43,6 +47,17 @@
             width: 350px;
             display: flex;
             align-items: center;
+            .image {
+              width: 75px;
+              height: 75px;
+              background-size: cover;
+              margin: 0 5px;
+            }
+            .image-name {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
           }
           .list-down {
             display: flex;
@@ -96,6 +111,8 @@
           .order-total {
             display: flex;
             justify-content: space-between;
+            border-top: 1px solid gray;
+            padding-top: 5px;
             .total {
               display: flex;
               flex-direction: column;

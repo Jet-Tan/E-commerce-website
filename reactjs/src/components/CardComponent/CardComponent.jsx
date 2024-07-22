@@ -41,7 +41,7 @@ export const CardComponent = (props) => {
             </span>
           </div>
           <div className="info">
-            <span className="title">{name}</span>
+            <div className="title">{name}</div>
             <span className="star">
               {rating}
               <StarFilled />
